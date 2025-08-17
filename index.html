@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nitesh Raj | CS Student & Developer</title>
+
+  <!-- Favicon (inline SVG) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236c63ff'/><stop offset='100%' stop-color='%234d44db'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='url(%23g)'/><text x='32' y='40' text-anchor='middle' font-size='26' font-family='Segoe UI, Arial, sans-serif' fill='%23ffffff' font-weight='700'>NR</text></svg>"/>
+
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+  <style>
+    :root {
+      --primary: #6c63ff;
+      --secondary: #4d44db;
+      --dark: #1e1e2c;
+      --light: #f5f5f7;
+      --gray: #8b8b8b;
+      --light-gray: #e0e0e0;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --transition: all 0.3s ease;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: var(--light); color: var(--dark); line-height: 1.6; transition: var(--transition); }
+    body.dark-mode { background: #121212; color: var(--light); }
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+    section { padding: 80px 0; }
+    h1, h2, h3, h4, h5, h6 { margin-bottom: 1.5rem; line-height: 1.2; }
+    h1 { font-size: 3.5rem; }
+    h2 { font-size: 2.5rem; text-align: center; margin-bottom: 3rem; position: relative; }
+    h2::after {
+      content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
+      width: 80px; height: 4px; background: var(--primary); border-radius: 2px;
+    }
+    p { margin-bottom: 1.5rem; }
+    a { text-decoration: none; color: inherit; transition: var(--transition); }
+    ul { list-style: none; }
+    img { max-width: 100%; height: auto; }
+    .btn { display: inline-block; padding: 12px 30px; background: var(--primary); color: #fff; border: none; border-radius: 30px; cursor: pointer; font-size: 1rem; font-weight: 500; transition: var(--transition); box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3); }
+    .btn:hover { background: var(--secondary); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4); }
+    .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+    .btn-outline:hover { background: var(--primary); color: #fff; }
+
+    /* Header */
+    header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 0; transition: var(--transition); }
+    header.scrolled { background: rgba(255, 255, 255, 0.95); box-shadow: 0 5px 20px rgba(0,0,0,0.1); padding: 15px 0; }
+    body.dark-mode header.scrolled { background: rgba(30,30,44,0.95); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+    .header-container { display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: inline-flex; align-items: center; gap: 8px; }
+    .logo-img, .brand-logo { width: 36px; height: 36px; display: inline-block; border-radius: 50%; vertical-align: middle; }
+    nav { display: flex; align-items: center; gap: 1rem; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links li a { font-weight: 500; position: relative; }
+    .nav-links li a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary); transition: var(--transition); }
+    .nav-links li a:hover::after { width: 100%; }
+    .hamburger { display: none; cursor: pointer; width: 30px; height: 20px; position: relative; z-index: 1001; }
+    .hamburger span { display: block; width: 100%; height: 3px; background: var(--dark); position: absolute; left: 0; transition: var(--transition); }
+    body.dark-mode .hamburger span { background: var(--light); }
+    .hamburger span:nth-child(1) { top: 0; }
+    .hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+    .hamburger span:nth-child(3) { bottom: 0; }
+    .hamburger.active span:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { bottom: 50%; transform: translateY(50%) rotate(-45deg); }
+    .theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--dark); transition: var(--transition); }
+    .theme-toggle:hover { transform: translateY(-2px); }
+    body.dark-mode .theme-toggle { color: var(--light); }
+
+    /* Hero */
+    #hero { height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .hero-content { max-width: 600px; }
+    .hero-content h1 { font-size: 3.5rem; margin-bottom: 1.5rem; line-height: 1.2; }
+    .hero-content h1 span { color: var(--primary); }
+    .hero-content p { font-size: 1.2rem; margin-bottom: 2rem; color: var(--gray); }
+    body.dark-mode .hero-content p { color: var(--light-gray); }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-image { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 50%; max-width: 600px; animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0% { transform: translateY(-50%) translateX(0); } 50% { transform: translateY(-50%) translateX(-20px); } 100% { transform: translateY(-50%) translateX(0); } }
+
+    /* About */
+    #about { background: rgba(108, 99, 255, 0.05); }
+    body.dark-mode #about { background: rgba(30, 30, 44, 0.8); }
+    .about-container { display: flex; align-items: center; gap: 4rem; }
+    .about-image { flex: 1; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 30px rgba(0,0,0,0.1); }
+    .about-image img { width: 100%; display: block; transition: var(--transition); }
+    .about-image:hover img { transform: scale(1.05); }
+    .about-content { flex: 1; }
+    .about-content h3 { font-size: 2rem; margin-bottom: 1.5rem; }
+    .about-content p { margin-bottom: 1.5rem; color: var(--gray); }
+    body.dark-mode .about-content p { color: var(--light-gray); }
+    .skills { margin-top: 2rem; }
+    .skill-item { margin-bottom: 1.5rem; }
+    .skill-info { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+    .skill-bar { height: 10px; background: var(--light-gray); border-radius: 5px; overflow: hidden; }
+    body.dark-mode .skill-bar { background: #333; }
+    .skill-progress { height: 100%; background: var(--primary); border-radius: 5px; transition: width 1.5s ease; width: 0; }
+
+    /* Portfolio */
+    #portfolio .portfolio-filter { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
+    .filter-btn { padding: 8px 20px; background: transparent; border: 1px solid var(--primary); color: var(--primary); border-radius: 30px; cursor: pointer; transition: var(--transition); }
+    .filter-btn.active, .filter-btn:hover { background: var(--primary); color: #fff; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+    .portfolio-item { border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: var(--transition); position: relative; }
+    .portfolio-item:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+    .portfolio-img { position: relative; overflow: hidden; }
+    .portfolio-img img { width: 100%; height: 250px; object-fit: cover; transition: var(--transition); }
+    .portfolio-item:hover .portfolio-img img { transform: scale(1.1); }
+    .portfolio-overlay { position: absolute; inset: 0; background: rgba(108, 99, 255, 0.9); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: var(--transition); }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-overlay h3 { color: #fff; margin-bottom: 1rem; transform: translateY(20px); transition: var(--transition); }
+    .portfolio-overlay a { color: #fff; font-size: 1.4rem; margin: 0 10px; transform: translateY(20px); transition: var(--transition); }
+    .portfolio-item:hover .portfolio-overlay h3, .portfolio-item:hover .portfolio-overlay a { transform: translateY(0); }
+    .portfolio-info { padding: 20px; }
+    .portfolio-info p { color: var(--gray); font-size: .9rem; }
+    body.dark-mode .portfolio-info p { color: var(--light-gray); }
+
+    /* Resume */
+    .resume-container { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+    body.dark-mode .resume-container { background: #2d2d3a; }
+    .resume-preview { margin-bottom: 2rem; border: 1px solid #eee; border-radius: 5px; overflow: hidden; }
+    body.dark-mode .resume-preview { border-color: #444; }
+    .download-btn-container { text-align: center; }
+
+    /* Contact */
+    #contact { background: rgba(108, 99, 255, 0.05); }
+    body.dark-mode #contact { background: rgba(30,30,44,0.8); }
+    .contact-container { display: flex; gap: 4rem; }
+    .contact-info { flex: 1; }
+    .contact-info h3 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+    .contact-info p { margin-bottom: 2rem; color: var(--gray); }
+    body.dark-mode .contact-info p { color: var(--light-gray); }
+    .contact-item { display: flex; align-items: center; margin-bottom: 1.5rem; }
+    .contact-icon { width: 50px; height: 50px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; margin-right: 1rem; flex-shrink: 0; }
+    .contact-text h4 { font-size: 1.1rem; margin-bottom: .3rem; }
+    .contact-text p { margin-bottom: 0; color: var(--gray); }
+    body.dark-mode .contact-text p { color: var(--light-gray); }
+    .contact-form { flex: 1; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    body.dark-mode .contact-form { background: #1e1e2c; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; margin-bottom: .5rem; font-weight: 500; }
+    .form-control { width: 100%; padding: 12px 15px; border: 1px solid var(--light-gray); border-radius: 5px; font-size: 1rem; transition: var(--transition); }
+    body.dark-mode .form-control { background: #2d2d3a; border-color: #444; color: var(--light); }
+    .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2); }
+    textarea.form-control { resize: vertical; min-height: 150px; }
+    .submit-btn { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 5px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: var(--transition); }
+    .submit-btn:hover { background: var(--secondary); }
+
+    /* Footer */
+    footer { background: var(--dark); color: #fff; padding: 30px 0; text-align: center; }
+    body.dark-mode footer { background: #0a0a0a; }
+    .footer-content { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .footer-brand { display: flex; align-items: center; gap: .6rem; color: #fff; font-weight: 700; }
+    .social-links { display: flex; gap: 1.2rem; margin: .5rem 0 1rem; }
+    .social-links a { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; transition: var(--transition); color: #fff; }
+    .social-links a:hover { background: var(--primary); transform: translateY(-5px); }
+
+    /* Back to Top */
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; opacity: 0; visibility: hidden; transition: var(--transition); z-index: 980; }
+    .back-to-top.active { opacity: 1; visibility: visible; }
+    .back-to-top:hover { background: var(--secondary); transform: translateY(-5px); }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+    .fade-in { animation: fadeIn 1s ease forwards; }
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    .delay-4 { animation-delay: 0.8s; }
+    .delay-5 { animation-delay: 1s; }
+
+    /* Chatbot */
+    .chatbot-toggle { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 2000; transition: var(--transition); }
+    .chatbot-toggle:hover { background: var(--secondary); transform: scale(1.05); }
+    .chatbot-toggle img { width: 28px; height: 28px; display: block; }
+    .chatbot-container { position: fixed; bottom: 100px; left: 30px; width: 360px; height: 560px; background: #fff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden; z-index: 2100; transform: translateY(20px); opacity: 0; visibility: hidden; transition: var(--transition); }
+    body.dark-mode .chatbot-container { background: #2d2d3a; color: var(--light); }
+    .chatbot-container.active { transform: translateY(0); opacity: 1; visibility: visible; }
+    .chatbot-header { background: var(--primary); color: #fff; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .chatbot-header h3 { margin: 0; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+    .chatbot-avatar { width: 22px; height: 22px; border-radius: 50%; vertical-align: middle; }
+    .chatbot-actions { display: flex; align-items: center; gap: 8px; }
+    .chatbot-icon-btn { background: rgba(255,255,255,0.15); border: none; color: #fff; min-width: 34px; height: 34px; border-radius: 16px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0 10px; gap: 6px; font-size: .85rem; }
+    .chatbot-icon-btn:hover { background: rgba(255,255,255,0.3); }
+    .chatbot-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .message { max-width: 80%; padding: 10px 14px; border-radius: 14px; line-height: 1.4; word-wrap: break-word; }
+    .user-message { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 5px; }
+    .bot-message { align-self: flex-start; background: #f0f0f0; color: var(--dark); border-bottom-left-radius: 5px; }
+    body.dark-mode .bot-message { background: #3d3d4a; color: var(--light); }
+    .chatbot-input { display: flex; padding: 10px; border-top: 1px solid #eee; gap: 8px; }
+    body.dark-mode .chatbot-input { border-top-color: #444; }
+    .chatbot-input input { flex: 1; padding: 10px 14px; border: 1px solid #ddd; border-radius: 20px; outline: none; font-size: .95rem; }
+    body.dark-mode .chatbot-input input { background: #3d3d4a; border-color: #555; color: var(--light); }
+    .chatbot-input button { width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--primary); color: #fff; cursor: pointer; transition: var(--transition); }
+    .chatbot-input button:hover { background: var(--secondary); }
+    .typing-indicator { display: flex; align-self: flex-start; padding: 10px 14px; background: #f0f0f0; border-radius: 14px; border-bottom-left-radius: 5px; gap: 6px; }
+    body.dark-mode .typing-indicator { background: #3d3d4a; }
+    .typing-dot { width: 8px; height: 8px; background: #999; border-radius: 50%; animation: typingAnimation 1.4s infinite ease-in-out; }
+    body.dark-mode .typing-dot { background: #aaa; }
+    .typing-dot:nth-child(2) { animation-delay: .2s; }
+    .typing-dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes typingAnimation { 0%, 60%, 100% { transform: translateY(0);} 30% { transform: translateY(-5px);} }
+    .quick-replies { display: flex; gap: 8px; flex-wrap: wrap; }
+    .quick-reply-btn { border: 1px solid #ddd; background: #fff; color: #333; border-radius: 16px; padding: 6px 12px; cursor: pointer; font-size: .85rem; }
+    .quick-reply-btn:hover { background: #f7f7f7; }
+    body.dark-mode .quick-reply-btn { background: #3d3d4a; border-color: #555; color: var(--light); }
+    body.dark-mode .quick-reply-btn:hover { background: #474759; }
+
+    @media (max-width: 992px) {
+      .about-container, .contact-container { flex-direction: column; }
+      .hero-image { display: none; }
+      .hero-content { max-width: 100%; text-align: center; }
+      .hero-btns { justify-content: center; }
+      .about-image { margin-bottom: 2rem; }
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 2rem; }
+      .nav-links { position: fixed; top: 0; right: -100%; width: 80%; max-width: 300px; height: 100vh; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; transition: var(--transition); z-index: 1000; }
+      body.dark-mode .nav-links { background: var(--dark); }
+      .nav-links.active { right: 0; }
+      .hamburger { display: block; }
+      section { padding: 60px 0; }
+    }
+    @media (max-width: 576px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.8rem; }
+      .hero-btns { flex-direction: column; gap: 1rem; }
+      .btn { width: 100%; text-align: center; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .chatbot-container { width: calc(100% - 60px); left: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="header">
+    <div class="container header-container">
+      <a href="#hero" class="logo" aria-label="Go to top">
+        <img class="logo-img" alt="NR logo"
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236c63ff'/><stop offset='100%' stop-color='%234d44db'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='url(%23g)'/><text x='32' y='40' text-anchor='middle' font-size='26' font-family='Segoe UI, Arial, sans-serif' fill='%23ffffff' font-weight='700'>NR</text></svg>" />
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </li>
+        </ul>
+        <div class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-content fade-in">
+        <h1>I'm <span>Nitesh Raj</span></h1>
+        <p>A Computer Science Student & Full Stack Web Developer</p>
+        <div class="hero-btns">
+          <a href="#portfolio" class="btn">View My Work</a>
+          <a href="#contact" class="btn btn-outline">Contact Me</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="D:\All Website Work\portfolio\image\raj.jpg" alt="Developer illustration"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title fade-in">About Me</h2>
+      <div class="about-container">
+        <div class="about-image fade-in">
+          <img src="D:\All Website Work\portfolio\image\nitesh.jpg" alt="Nitesh at work"/>
+        </div>
+        <div class="about-content fade-in delay-1">
+          <h3>My Bio</h3>
+          <p>I'm a CS student and developer who enjoys building clean, fast, and user-friendly web apps. I focus on modern stacks, design systems, and delivering real value.</p>
+          <p>When I'm not coding, I explore UI/UX patterns and contribute to small projects that help people learn faster.</p>
+
+          <div class="skills">
+            <div class="skill-item"><div class="skill-info"><span>HTML/CSS</span><span>95%</span></div><div class="skill-bar"><div class="skill-progress" data-width="95"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>JavaScript</span><span>85%</span></div><div class="skill-bar"><div class="skill-progress" data-width="85"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>React</span><span>80%</span></div><div class="skill-bar"><div class="skill-progress" data-width="80"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>Python</span><span>75%</span></div><div class="skill-bar"><div class="skill-progress" data-width="75"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <div class="container">
+      <h2 class="section-title fade-in">My Portfolio</h2>
+      <div class="portfolio-filter fade-in delay-1">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="web">Web Development</button>
+        <button class="filter-btn" data-filter="app">App Development</button>
+        <button class="filter-btn" data-filter="design">UI/UX Design</button>
+      </div>
+      <div class="portfolio-grid">
+        <div class="portfolio-item fade-in delay-2" data-category="web">
+          <div class="portfolio-img">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop" alt="E-commerce project"/>
+            <div class="portfolio-overlay">
+              <h3>E-commerce Website</h3>
+              <div>
+                <a href="#" aria-label="Project link"><i class="fa-solid fa-link"></i></a>
+                <a href="#" aria-label="Preview"><i class="fa-solid fa-magnifying-glass"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-info">
+            <h3>E-commerce Platform</h3>
+            <p>Web Development</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in delay-3" data-category="app">
+          <div class="portfolio-img">
+            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200&auto=format&fit=crop" alt="Task app"/>
+            <div class="portfolio-overlay">
+              <h3>Task Management App</h3>
+              <div>
+                <a href="#" aria-label="Project link"><i class="fa-solid fa-link"></i></a>
+                <a href="#" aria-label="Preview"><i class="fa-solid fa-magnifying-glass"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Task Manager</h3>
+            <p>App Development</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in delay-4" data-category="design">
+          <div class="portfolio-img">
+            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=1200&auto=format&fit=crop" alt="UI/UX Dashboard"/>
+            <div class="portfolio-overlay">
+              <h3>UI/UX Dashboard</h3>
+              <div>
+                <a href="#" aria-label="Project link"><i class="fa-solid fa-link"></i></a>
+                <a href="#" aria-label="Preview"><i class="fa-solid fa-magnifying-glass"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Admin Dashboard</h3>
+            <p>UI/UX Design</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in delay-2" data-category="web">
+          <div class="portfolio-img">
+            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1200&auto=format&fit=crop" alt="Portfolio site"/>
+            <div class="portfolio-overlay">
+              <h3>Portfolio Website</h3>
+              <div>
+                <a href="#" aria-label="Project link"><i class="fa-solid fa-link"></i></a>
+                <a href="#" aria-label="Preview"><i class="fa-solid fa-magnifying-glass"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Personal Portfolio</h3>
+            <p>Web Development</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in delay-3" data-category="app">
+          <div class="portfolio-img">
+            <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?q=80&w=1200&auto=format&fit=crop" alt="Fitness app"/>
+            <div class="portfolio-overlay">
+              <h3>Fitness Tracker</h3>
+              <div>
+                <a href="#" aria-label="Project link"><i class="fa-solid fa-link"></i></a>
+                <a href="#" aria-label="Preview"><i class="fa-solid fa-magnifying-glass"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Fitness App</h3>
+            <p>App Development</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item fade-in delay-4" data-category="design">
+          <div class="portfolio-img">
+            <img src="https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=1200&auto=format&fit=crop" alt="Mobile app design"/>
+            <div class="portfolio-overlay">
+              <h3>Mobile App Design</h3>
+              <div>
+                <a href="#" aria-label="Project link"><i class="fa-solid fa-link"></i></a>
+                <a href="#" aria-label="Preview"><i class="fa-solid fa-magnifying-glass"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Social Media App</h3>
+            <p>UI/UX Design</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resume -->
+  <section id="resume">
+    <div class="container">
+      <h2 class="section-title fade-in">My Resume</h2>
+      <div class="resume-container fade-in">
+        <div class="resume-preview">
+          <iframe src="https://docs.google.com/gview?embedded=true&url=https://example.com/your-resume.pdf" style="width:100%; height:500px;" frameborder="0" title="Resume Preview"></iframe>
+        </div>
+        <div class="download-btn-container">
+          <a href="resume.pdf" download="Nitesh_Raj_Resume.pdf" class="btn"><i class="fa-solid fa-download"></i> Download Resume (PDF)</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title fade-in">Contact Me</h2>
+      <div class="contact-container">
+        <div class="contact-info fade-in">
+          <h3>Get In Touch</h3>
+          <p>Feel free to reach out to me for any questions or opportunities. I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="contact-text">
+                <h4>Location</h4>
+                <p>Bihar / Gujarat, India</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+              <div class="contact-text">
+                <h4>Email</h4>
+                <p><a href="mailto:niteshrajsawan0@gmail.com">niteshrajsawan0@gmail.com</a></p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+              <div class="contact-text">
+                <h4>Phone</h4>
+                <p><a href="tel:+917492973201">+91 7492973201</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form fade-in delay-1">
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" class="form-control" required/>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" class="form-control" required/>
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" class="form-control" required/>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <a href="#hero" class="footer-brand" aria-label="Go to top">
+          <img class="brand-logo" alt="NR logo"
+            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236c63ff'/><stop offset='100%' stop-color='%234d44db'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='url(%23g)'/><text x='32' y='40' text-anchor='middle' font-size='26' font-family='Segoe UI, Arial, sans-serif' fill='%23ffffff' font-weight='700'>NR</text></svg>"/>
+          <span>Nitesh Raj</span>
+        </a>
+        <div class="social-links">
+          <a href="https://github.com/nitesh-raj-github" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/nitesh-raj-0aa3a8241/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://x.com/iam_realnitesh?s=11" target="_blank" rel="noopener" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://www.instagram.com/_.nitesh.goswami?igsh=bmpzYnY1cGdwNXg%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <p style="color: var(--light-gray); font-size: .9rem;">© 2025 Nitesh Raj. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <div class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </div>
+
+  <!-- Chatbot Interface -->
+  <div class="chatbot-container" id="chatbotContainer" aria-live="polite">
+    <div class="chatbot-header">
+      <h3>
+        <img class="chatbot-avatar" alt="Nitesh bot"
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236c63ff'/><stop offset='100%' stop-color='%234d44db'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='url(%23bg)'/><rect x='16' y='22' width='32' height='24' rx='10' fill='%23ffffff'/><circle cx='26' cy='34' r='5' fill='%236c63ff'/><circle cx='38' cy='34' r='5' fill='%236c63ff'/><rect x='24' y='40' width='16' height='4' rx='2' fill='%236c63ff'/><line x1='32' y1='12' x2='32' y2='20' stroke='%23ffffff' stroke-width='3'/><circle cx='32' cy='9' r='3' fill='%23ffffff'/></svg>" />
+        Nitesh — Chat
+      </h3>
+      <div class="chatbot-actions">
+        <button class="chatbot-icon-btn" id="changeTone" title="Change tone"><i class="fa-solid fa-venus-mars"></i><span> Tone</span></button>
+        <button class="chatbot-icon-btn" id="clearChat" title="Reset chat"><i class="fa-solid fa-rotate"></i><span> Reset</span></button>
+        <button class="chatbot-icon-btn" id="closeChatbot" title="Close">&times;</button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages"></div>
+    <div class="chatbot-input">
+      <input type="text" id="userMessage" placeholder="Ask me anything..." aria-label="Message input"/>
+      <button id="sendMessage" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </div>
+  <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open chatbot">
+    <img alt="Open chatbot"
+      src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%236c63ff'/><stop offset='100%' stop-color='%234d44db'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='url(%23bg)'/><rect x='16' y='22' width='32' height='24' rx='10' fill='%23ffffff'/><circle cx='26' cy='34' r='5' fill='%236c63ff'/><circle cx='38' cy='34' r='5' fill='%236c63ff'/><rect x='24' y='40' width='16' height='4' rx='2' fill='%236c63ff'/><line x1='32' y1='12' x2='32' y2='20' stroke='%23ffffff' stroke-width='3'/><circle cx='32' cy='9' r='3' fill='%23ffffff'/></svg>" />
+  </button>
+
+  <!-- Scripts -->
+  <script>
+    /* ========= PERMANENT API CONFIG (Client-side — for demo only) =========
+       For production, keep keys on a secure server and proxy requests.
+    */
+    const QA_PROVIDER = "gemini-first"; // "gemini-first" | "openai-first" | "cse-first"
+
+    // Google Gemini (Generative Language) — you asked to add this API
+    // Your snippet (Node): import { GoogleGenAI } from "@google/genai"
+    // Browser version: using REST fetch below.
+    const GEMINI_API_KEY = "nitesh_7492";         // Replace with your real key
+    const GEMINI_MODEL   = "gemini-2.5-flash";    // Model you requested
+
+    // Optional: OpenAI fallback (leave empty to disable)
+    const OPENAI_API_KEY = "";                    // e.g., "sk-..."
+    const OPENAI_MODEL   = "gpt-3.5-turbo";
+
+    // Optional: Google Custom Search (web results) fallback
+    const GOOGLE_CSE_KEY = ""; // API key
+    const GOOGLE_CSE_CX  = ""; // Search Engine ID
+
+    // ====== Site UI scripts (nav/theme/scroll) ======
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = themeToggle.querySelector('i');
+      const header = document.getElementById('header');
+      const backToTop = document.getElementById('backToTop');
+
+      hamburger.addEventListener('click', () => {
+        const active = navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active', active);
+        hamburger.setAttribute('aria-expanded', active ? 'true' : 'false');
+      });
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          hamburger.classList.remove('active');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeIcon.classList.replace('fa-moon', 'fa-sun');
+      }
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const dark = document.body.classList.contains('dark-mode');
+        themeIcon.classList.toggle('fa-sun', dark);
+        themeIcon.classList.toggle('fa-moon', !dark);
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      });
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', (e) => {
+          const id = anchor.getAttribute('href');
+          const target = document.querySelector(id);
+          if (!target) return;
+          e.preventDefault();
+          const y = target.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        });
+      });
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) backToTop.classList.add('active');
+        else backToTop.classList.remove('active');
+      });
+      backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+      // Skills animation
+      const skillBars = document.querySelectorAll('.skill-progress');
+      function inViewport(el) { const r = el.getBoundingClientRect(); return r.top >= 0 && r.bottom <= (window.innerHeight || document.documentElement.clientHeight); }
+      function animateSkills() { skillBars.forEach(bar => { const width = bar.getAttribute('data-width'); if (inViewport(bar)) bar.style.width = width + '%'; }); }
+      window.addEventListener('scroll', animateSkills); animateSkills();
+
+      // Contact form (demo)
+      const contactForm = document.getElementById('contactForm');
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon.`);
+        contactForm.reset();
+      });
+
+      // Fade-in on intersection
+      const fades = document.querySelectorAll('.fade-in');
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = 1; entry.target.style.transform = 'translateY(0)'; } });
+      }, { threshold: 0.1 });
+      fades.forEach(el => { el.style.opacity = 0; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity .6s ease, transform .6s ease'; obs.observe(el); });
+    });
+
+    // ====== Chatbot logic (gendered tone + provider-based answers) ======
+    (function initChatbot() {
+      const chatbotToggle = document.getElementById('chatbotToggle');
+      const chatbotContainer = document.getElementById('chatbotContainer');
+      const closeChatbot = document.getElementById('closeChatbot');
+      const changeToneBtn = document.getElementById('changeTone');
+      const clearChatBtn = document.getElementById('clearChat');
+      const chatbotMessages = document.getElementById('chatbotMessages');
+      const userMessageInput = document.getElementById('userMessage');
+      const sendMessageBtn = document.getElementById('sendMessage');
+
+      let userGender = localStorage.getItem('user_gender'); // 'female' | 'male' | null
+
+      chatbotToggle.addEventListener('click', () => {
+        chatbotContainer.classList.toggle('active');
+        if (chatbotMessages.children.length === 0) welcome();
+      });
+      closeChatbot.addEventListener('click', () => chatbotContainer.classList.remove('active'));
+      changeToneBtn.addEventListener('click', () => askGender(true));
+      clearChatBtn.addEventListener('click', resetChat);
+
+      function resetChat() {
+        chatbotMessages.innerHTML = '';
+        userGender = null;
+        localStorage.removeItem('user_gender');
+        welcome();
+      }
+
+      function welcome() {
+        addMessage("Hi! I'm Nitesh. I can chat about my portfolio or answer general questions with Google Gemini (or other sources). To match my vibe, are you Female or Male?", 'bot');
+        addQuickReplies([{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}]);
+      }
+
+      function addQuickReplies(options) {
+        const wrap = document.createElement('div'); wrap.className = 'quick-replies';
+        options.forEach(opt => {
+          const btn = document.createElement('button'); btn.className = 'quick-reply-btn'; btn.textContent = opt.label;
+          btn.addEventListener('click', () => {
+            if (opt.value === 'female' || opt.value === 'male') {
+              setUserGender(opt.value);
+              addMessage(opt.label, 'user');
+              addMessage(opt.value === 'female'
+                ? "Noted, lovely! I’ll keep it sweet and a little flirty—respectfully. What can I do for you? 😊"
+                : "Got it. I’ll keep things crisp and professional. How can I help today?", 'bot');
+            }
+            wrap.remove();
+          });
+          wrap.appendChild(btn);
+        });
+        chatbotMessages.appendChild(wrap);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      }
+
+      function askGender(preface=false) {
+        if (preface) addMessage("Want me to switch tone? Choose your preference:", 'bot');
+        addQuickReplies([{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}]);
+      }
+
+      function setUserGender(g) { userGender = g; localStorage.setItem('user_gender', g); }
+
+      function sendMessage() {
+        const message = userMessageInput.value.trim();
+        if (!message) return;
+        addMessage(message, 'user');
+        userMessageInput.value = '';
+
+        if (!userGender) {
+          const detected = detectGenderFromMessage(message);
+          if (detected) {
+            setUserGender(detected);
+            addMessage(detected === 'female'
+              ? "Aww, noted! I’ll keep it sweet and flirty—PG and respectful. How can I help? ✨"
+              : "Thanks. I’ll keep the answers professional and straight to the point.", 'bot');
+          } else {
+            askGender(true); return;
+          }
+        }
+
+        if (/^(reset|clear)$/i.test(message)) { resetChat(); return; }
+        if (/^(change( tone)?|switch( tone)?|change gender)$/i.test(message)) { askGender(true); return; }
+
+        respond(message);
+      }
+      sendMessageBtn.addEventListener('click', sendMessage);
+      userMessageInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+      function addMessage(text, sender='bot') {
+        const div = document.createElement('div');
+        div.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+        div.textContent = text;
+        chatbotMessages.appendChild(div);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      }
+      function showTyping() {
+        const d = document.createElement('div');
+        d.className = 'typing-indicator';
+        d.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+        chatbotMessages.appendChild(d);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        return d;
+      }
+      function detectGenderFromMessage(msg) {
+        const m = msg.toLowerCase();
+        if (/(female|woman|girl|lady|she\/her)/.test(m)) return 'female';
+        if (/(male|man|boy|gent|he\/him)/.test(m)) return 'male';
+        return null;
+      }
+
+      function isPersonalQuestion(msg) {
+        const m = msg.toLowerCase();
+        const kws = ['nitesh','portfolio','resume','cv','project','projects','skills','skill','contact','email','phone','whatsapp','location','where','based','github','linkedin','twitter','x','instagram','insta','hire','availability'];
+        return kws.some(k => m.includes(k));
+      }
+
+      function personalAnswer(msg) {
+        const m = msg.toLowerCase();
+        if (m.includes('email')) return "You can email me at niteshrajsawan0@gmail.com.";
+        if (m.includes('phone') || m.includes('call')) return "You can call me at +91 7492973201.";
+        if (m.includes('github')) return "My GitHub: https://github.com/nitesh-raj-github";
+        if (m.includes('linkedin')) return "My LinkedIn: https://www.linkedin.com/in/nitesh-raj-0aa3a8241/";
+        if (m.includes('twitter') || m.includes('x')) return "My X (Twitter): https://x.com/iam_realnitesh?s=11";
+        if (m.includes('instagram') || m.includes('insta')) return "My Instagram: https://www.instagram.com/_.nitesh.goswami";
+        if (m.includes('location') || m.includes('where') || m.includes('based')) return "I'm based in Bihar / Gujarat, India.";
+        if (m.includes('resume') || m.includes('cv')) return "You can preview my resume in the Resume section and download the PDF there.";
+        if (m.includes('project')) return "Check the Portfolio section—I've highlighted work across Web, App and UI/UX.";
+        if (m.includes('skills') || m.includes('skill')) return "I work with HTML/CSS, JavaScript, React, and Python—and I’m always learning.";
+        if (m.includes('hire') || m.includes('availability')) return "I’m open to opportunities. Feel free to email or ping me on LinkedIn.";
+        return "You’ll find most details on this site—jump to Portfolio, Resume, or Contact via the header.";
+      }
+
+      function toneWrap(coreText) {
+        const femaleOpeners = ["Hey there 😊","Hi beautiful 😉","Hello! You just brightened my day ✨","Hey! Love your curiosity 😊"];
+        const femaleClosers = ["Anything else I can help you with? 💫","Happy to help—just say the word 😉","Ask me more, I’m all ears 😊","Here for you if you need more ✨"];
+        const maleOpeners = ["Hello!","Hi there,","Certainly.","Absolutely."];
+        const maleClosers = ["Let me know if you need more details.","Hope that helps.","Feel free to ask more questions.","Happy to elaborate further."];
+        if (userGender === 'female') {
+          const pre = femaleOpeners[Math.floor(Math.random() * femaleOpeners.length)];
+          const post = femaleClosers[Math.floor(Math.random() * femaleClosers.length)];
+          return `${pre} ${coreText} ${post}`;
+        } else {
+          const pre = maleOpeners[Math.floor(Math.random() * maleOpeners.length)];
+          const post = maleClosers[Math.floor(Math.random() * maleClosers.length)];
+          return `${pre} ${coreText} ${post}`;
+        }
+      }
+
+      // Google Custom Search (optional)
+      async function googleSearch(q) {
+        if (!GOOGLE_CSE_KEY || !GOOGLE_CSE_CX) throw new Error('Google Search is not configured.');
+        const url = `https://www.googleapis.com/customsearch/v1?key=${encodeURIComponent(GOOGLE_CSE_KEY)}&cx=${encodeURIComponent(GOOGLE_CSE_CX)}&q=${encodeURIComponent(q)}`;
+        const res = await fetch(url);
+        if (!res.ok) { let err = await res.text(); try { const j = JSON.parse(err); err = j.error?.message || err; } catch {} throw new Error(err || 'Google Search error'); }
+        const data = await res.json();
+        const items = data.items || [];
+        if (!items.length) return "I couldn't find reliable results right now.";
+        return items.slice(0,3).map(it => `• ${it.title}\n  ${it.snippet}\n  ${it.link}`).join('\n\n');
+      }
+
+      // Gemini (Google GenAI) via REST
+      async function askGemini(prompt) {
+        if (!GEMINI_API_KEY) throw new Error('Gemini API is not configured.');
+        const systemText = `You are Nitesh, the owner of this portfolio site. Always speak in first person as "I". Tone: ${userGender === 'female' ? 'light, respectful, playful, slightly flirty (PG)' : 'clear, professional, concise'}. Be helpful and accurate. If unsure, say so briefly.`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(GEMINI_MODEL)}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
+        const body = {
+          systemInstruction: { role: "system", parts: [{ text: systemText }] },
+          contents: [{ role: "user", parts: [{ text: prompt }]}],
+          generationConfig: { temperature: 0.5, maxOutputTokens: 500 }
+        };
+        const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        if (!res.ok) { let err = await res.text(); try { const j = JSON.parse(err); err = j.error?.message || err; } catch {} throw new Error(err || 'Gemini error'); }
+        const data = await res.json();
+        const parts = data.candidates?.[0]?.content?.parts || [];
+        const text = parts.map(p => p.text || '').join('').trim();
+        return text || "I couldn't find a good answer.";
+      }
+
+      // OpenAI fallback
+      async function askOpenAI(prompt) {
+        if (!OPENAI_API_KEY) throw new Error('OpenAI API is not configured.');
+        const systemText = `You are Nitesh, the owner of this portfolio site. Always answer in first person as "I". Tone: ${userGender === 'female' ? 'light, respectful, playful, slightly flirty (PG)' : 'clear, professional, concise'}. Be helpful and accurate. If unsure, say so briefly.`;
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_API_KEY}` },
+          body: JSON.stringify({
+            model: OPENAI_MODEL,
+            messages: [{ role: 'system', content: systemText }, { role: 'user', content: prompt }],
+            temperature: 0.5,
+            max_tokens: 500
+          })
+        });
+        if (!res.ok) { let err = await res.text(); try { const j = JSON.parse(err); err = j.error?.message || err; } catch {} throw new Error(err || 'OpenAI error'); }
+        const data = await res.json();
+        return data.choices?.[0]?.message?.content?.trim() || "I couldn't find a good answer.";
+      }
+
+      async function respond(message) {
+        const typing = showTyping();
+        try {
+          if (isPersonalQuestion(message)) {
+            const ans = personalAnswer(message);
+            typing.remove();
+            addMessage(toneWrap(ans), 'bot');
+            return;
+          }
+
+          let reply = "";
+          if (QA_PROVIDER === 'gemini-first') {
+            try { reply = await askGemini(message); }
+            catch (e1) {
+              if (OPENAI_API_KEY) reply = await askOpenAI(message);
+              else if (GOOGLE_CSE_KEY && GOOGLE_CSE_CX) reply = await googleSearch(message);
+              else throw e1;
+            }
+          } else if (QA_PROVIDER === 'openai-first') {
+            try { reply = await askOpenAI(message); }
+            catch (e1) {
+              if (GEMINI_API_KEY) reply = await askGemini(message);
+              else if (GOOGLE_CSE_KEY && GOOGLE_CSE_CX) reply = await googleSearch(message);
+              else throw e1;
+            }
+          } else { // cse-first
+            try { reply = await googleSearch(message); }
+            catch (e1) {
+              if (GEMINI_API_KEY) reply = await askGemini(message);
+              else if (OPENAI_API_KEY) reply = await askOpenAI(message);
+              else throw e1;
+            }
+          }
+
+          typing.remove();
+          addMessage(toneWrap(reply), 'bot');
+        } catch (e) {
+          typing.remove();
+          addMessage(toneWrap(e.message || 'Sorry, something went wrong.'), 'bot');
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
